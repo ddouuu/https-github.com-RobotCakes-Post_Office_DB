@@ -27,18 +27,20 @@ jobs:
         npm install
         npm run build --if-present
         npm run test --if-present
-    
     - name: Upload artifact for deployment job
       uses: actions/upload-artifact@v3
       with:
         name: node-app
-        path: ./
+        path: .
 
   deploy:
     permissions:
       contents: none
     runs-on: ubuntu-latest
     needs: build
+    environment:
+      name: 'Development'
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
     - name: Download artifact from build job
@@ -46,10 +48,15 @@ jobs:
       with:
         name: node-app
 
-    - name: Deploy to Azure Static Web Apps
-      uses: Azure/static-web-apps-deploy@v1
+    - name: Login to Azure
+      uses: azure/login@v2.2.0   # Azure login step
       with:
-        app_location: "/"  # Location of your application source code
-        output_location: "build"  # Location of the build output directory (can be 'dist' or 'build' depending on your project)
-        api_location: ""  # Location of your Azure Functions API (if any)
-        azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEBAPP_TOKEN }}
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: 'Deploy to Azure WebApp'
+      id: deploy-to-webapp
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: ${{ env.AZURE_WEBAPP_NAME }}
+        package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+
