@@ -1,8 +1,19 @@
-/* styles/App.css */
+styles/App.css
 .app-container {
   text-align: center;
   font-family: Arial, sans-serif;
   padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Center content vertically */
+  align-items: center; /* Center content horizontally */
+  min-height: 100vh; /* Ensure full viewport height */
+}
+
+.centered-text {
+  margin-top: 20px; /* Add some space above */
+  font-size: 2rem; /* Adjust font size as needed */
+  color: #000000; /* Optional: Change text color if desired */
 }
 
 .logo {
@@ -17,3 +28,4 @@
 .auth-section, .ip-section {
   margin-top: 20px;
 }
+

@@ -1,13 +1,12 @@
-// src/App.jsx
 import { useState, useEffect } from "react";
 import { useAuth } from "./auth/SessionProvider";
 import LoginButton from "./components/LoginButton";
-import reactLogo from "./assets/react.svg"; // Ensure this path is correct
-import "./styles/App.css"; // Make sure styles are set up
+import reactLogo from "./assets/react.svg";
+import "./styles/App.css"; // Ensure this path is correct
 
 function App() {
   const [count, setCount] = useState(0);
-  const [ip, setIp] = useState(""); // State to store IP address
+  const [ip, setIp] = useState("");
   const { user, login, logout } = useAuth();
 
   useEffect(() => {
@@ -30,7 +29,12 @@ function App() {
         </a>
         <h1>Post Office</h1>
       </header>
-      
+
+      {/* Centered text */}
+      <div className="centered-text">
+        <p>cool it red 😎</p>
+      </div>
+
       <div className="card">
         <button onClick={() => setCount(count + 1)}>
           count is {count}
