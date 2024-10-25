@@ -1,34 +1,38 @@
 // src/App.jsx
-import { useState } from "react";
-import { useAuth } from "./auth/SessionProvider"; // Import useAuth hook
-import reactLogo from "./assets/react.svg";
-import "./styles/App.css";
-
-
-
+import { useState, useEffect } from "react";
+import { useAuth } from "./auth/SessionProvider";
+import LoginButton from "./components/LoginButton";
+import reactLogo from "./assets/react.svg"; // Ensure this path is correct
+import "./styles/App.css"; // Make sure styles are set up
 
 function App() {
   const [count, setCount] = useState(0);
-  const { user, login, logout } = useAuth(); // Access user, login, and logout from useAuth
+  const [ip, setIp] = useState(""); // State to store IP address
+  const { user, login, logout } = useAuth();
 
-
+  useEffect(() => {
+    fetch("https://api.ipify.org?format=json")
+      .then((response) => response.json())
+      .then((data) => setIp(data.ip))
+      .catch((error) => console.error("Error fetching IP:", error));
+  }, []);
 
   const handleLogin = () => {
-    // Mock user data
-    const userData = { name: "John dou", email: "john@example.com" };
-    login(userData); // Call login to set the user data
+    const userData = { name: "John Doe", email: "john@example.com" };
+    login(userData);
   };
 
   return (
-    <>
-      <div>
-        <a href="https://react.dev" target="_blank">
+    <div className="app-container">
+      <header>
+        <a href="https://react.dev" target="_blank" rel="noreferrer">
           <img src={reactLogo} className="logo react" alt="React logo" />
         </a>
-      </div>
-      <h1>Vite + React</h1>
+        <h1>Post Office</h1>
+      </header>
+      
       <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
+        <button onClick={() => setCount(count + 1)}>
           count is {count}
         </button>
         <p>Edit <code>src/App.jsx</code> and save to test HMR</p>
@@ -41,14 +45,21 @@ function App() {
             <button onClick={logout}>Logout</button>
           </div>
         ) : (
-          <button onClick={handleLogin}>Login</button>
+          <>
+            <button onClick={handleLogin}>Mock Login</button>
+            <LoginButton />
+          </>
         )}
       </div>
 
-      <p className="read-the-docs">
+      <div className="ip-section">
+        <p>Your IP address is: {ip ? ip : "Loading..."}</p>
+      </div>
+
+      <footer className="read-the-docs">
         Click on the Vite and React logos to learn more
-      </p>
-    </>
+      </footer>
+    </div>
   );
 }
 

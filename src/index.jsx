@@ -1,16 +1,17 @@
-import React from "react"
-import ReactDOM from "react-dom/client"
-import App from "./App"
-import "./styles.css"
-import { BrowserRouter } from "react-router-dom"
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App";
+import "./styles.css";
+import { BrowserRouter } from "react-router-dom";
+import { AuthProvider } from "./auth/SessionProvider"; // Use AuthProvider here
 
-const root = ReactDOM.createRoot(document.getElementById("root"))
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <App />
+      <AuthProvider>
+        <App />
+      </AuthProvider>
     </BrowserRouter>
   </React.StrictMode>
-)
-
-export default Index;
+);
