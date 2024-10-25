@@ -1,8 +1,8 @@
 // vite.config.js
 import { defineConfig } from 'vite';
 
-export default defineConfig({
+export default {
   build: {
-    outDir: 'build'
-  }
-});
+    outDir: 'dist', // or 'build' if Azure is expecting that
+  },
+};
