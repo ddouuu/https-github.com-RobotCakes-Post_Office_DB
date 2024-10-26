@@ -1,14 +1,16 @@
 import React from 'react';
 
 const LoginButton = () => {
-  const handleProviderLogin = (provider) => { // Renamed function
-    window.location.href = `/.auth/login/${provider}`;
+  const handleRoleLogin = (role) => {
+    // Redirect to the login URL based on the selected role
+    window.location.href = `/.auth/login/${role}`;
   };
 
   return (
     <div>
-      <button onClick={() => handleProviderLogin('github')}>Login with GitHub</button>
-      <button onClick={() => handleProviderLogin('twitter')}>Login with Twitter</button>
+      <h2>Login as:</h2>
+      <button onClick={() => handleRoleLogin('admin')}>Login as Admin</button>
+      <button onClick={() => handleRoleLogin('customer')}>Login as Customer</button>
     </div>
   );
 };
