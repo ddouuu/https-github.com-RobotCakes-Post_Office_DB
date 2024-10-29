@@ -26,7 +26,7 @@ jobs:
         run: |
           msbuild ./Post_Office_DB.sln /nologo /verbosity:m "/t:Build;Publish" /p:PublishDir="${{ github.workspace }}/published"
 
-      - name: List all files and directories
+      - name: List all files in the workspace after publishing
         run: Get-ChildItem -Recurse "${{ github.workspace }}"
 
       - name: Verify published directory contents
@@ -37,7 +37,6 @@ jobs:
         with:
           name: ASP-app
           path: '${{ github.workspace }}/published/*'
-
 
   deploy:
     runs-on: windows-latest
