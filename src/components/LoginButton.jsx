@@ -1,9 +1,20 @@
+// src/components/LoginButton.jsx
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../auth/SessionProvider';
 
 const LoginButton = () => {
+  const navigate = useNavigate();
+  const { login } = useAuth();
+
   const handleRoleLogin = (role) => {
-    // Redirect to the login URL based on the selected role
-    window.location.href = `/.auth/login/${role}`;
+    if (role === 'admin') {
+      window.location.href = '/.auth/login/admin';
+    } else if (role === 'customer') {
+      const userData = { username: "customer123", password: "password123" }; // Mock data
+      login(userData); // Save user data
+      navigate('/customer-home'); // Navigate to customerHome
+    }
   };
 
   return (
