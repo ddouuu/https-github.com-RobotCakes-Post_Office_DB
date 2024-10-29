@@ -25,6 +25,9 @@ jobs:
       - name: Publish to folder
         run: msbuild ./Post_Office_DB.sln /nologo /verbosity:m /t:Publish /p:PublishDir="${{ github.workspace }}/published"
 
+      - name: List all files and directories
+        run: dir ${{ github.workspace }} -Recurse
+
       - name: Verify published directory contents
         run: dir "${{ github.workspace }}/published"
 
