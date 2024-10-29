@@ -4,56 +4,102 @@
   <meta charset="UTF-8" />
   <link rel="icon" type="image/svg+xml" href="/vite.svg" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Post Office</title>
+  <title>Post Office Portal</title>
   <style>
     body {
       font-family: Arial, sans-serif;
       text-align: center;
       background-color: #f7f7f7;
+      margin: 0;
+      padding: 20px;
     }
-    .login-buttons {
-      margin-top: 20px;
+    .login-buttons, .tracking-section, .status-section {
+      margin-top: 30px;
     }
     h2 {
       color: #333;
     }
-    #connection-status {
-      margin-top: 20px;
-      font-size: 14px;
+    .login-buttons p, .tracking-section p {
+      margin: 10px 0;
+    }
+    .status-section #connection-status {
+      margin-top: 10px;
+      font-size: 16px;
       color: #555;
+    }
+    button {
+      padding: 8px 12px;
+      font-size: 14px;
     }
   </style>
 </head>
 <body>
   <div id="root"></div>
+
+  <!-- Welcome Section -->
   <div class="login-buttons">
     <h2>Welcome to the Post Office Portal</h2>
     <p>Choose your login:</p>
     <div style="display: flex; justify-content: center; gap: 10px; margin-top: 20px;">
-      <button style="font-size: 14px;" onclick="window.location.href='/.auth/login/admin'">Login as Admin</button>
-      <button style="font-size: 14px;" onclick="window.location.href='/.auth/login/customer'">Login as Customer</button>
+      <button onclick="window.location.href='/.auth/login/admin'">Login as Admin</button>
+      <button onclick="window.location.href='/.auth/login/customer'">Login as Customer</button>
     </div>
-    <div id="connection-status">Checking connection...</div>
   </div>
 
-  <script type="module" src="/src/main.jsx"></script>
+  <!-- Database Connection Status Section -->
+  <div class="status-section">
+    <p id="connection-status">Checking database connection...</p>
+  </div>
+
+  <!-- Package Tracking Section -->
+  <div class="tracking-section">
+    <h2>Track Your Package</h2>
+    <input type="text" id="trackingInput" placeholder="Enter tracking number" style="padding: 8px; width: 200px; font-size: 14px;">
+    <button onclick="trackPackage()" style="padding: 8px; font-size: 14px;">Track Package</button>
+    <p id="trackingResult" style="margin-top: 15px; color: #333;"></p>
+  </div>
+
   <script>
-    // Function to check data connection status
-    function updateConnectionStatus() {
+    // Function to check database connection status from backend
+    async function checkDatabaseStatus() {
       const statusElement = document.getElementById('connection-status');
-      if (navigator.onLine) {
-        statusElement.textContent = 'Connected to the server';
-        statusElement.style.color = 'green';
-      } else {
-        statusElement.textContent = 'Disconnected from the server';
+
+      try {
+        const response = await fetch('/api/db-status');
+        if (response.ok) {
+          const { status } = await response.json();
+          if (status === 'connected') {
+            statusElement.textContent = 'Database Connected';
+            statusElement.style.color = 'green';
+          } else {
+            statusElement.textContent = 'Database Disconnected';
+            statusElement.style.color = 'red';
+          }
+        } else {
+          statusElement.textContent = 'Error checking database status';
+          statusElement.style.color = 'orange';
+        }
+      } catch (error) {
+        statusElement.textContent = 'db connection not Sure';
         statusElement.style.color = 'red';
       }
     }
 
-    // Initial check and event listeners for connection changes
-    updateConnectionStatus();
-    window.addEventListener('online', updateConnectionStatus);
-    window.addEventListener('offline', updateConnectionStatus);
+    // Check database status on page load
+    checkDatabaseStatus();
+
+    // Function to handle package tracking
+    function trackPackage() {
+      const trackingInput = document.getElementById("trackingInput").value.trim();
+      const trackingResult = document.getElementById("trackingResult");
+
+      if (trackingInput) {
+        trackingResult.textContent = `Tracking number "${trackingInput}" is being processed...`;
+      } else {
+        trackingResult.textContent = "Please enter a valid tracking number.";
+        trackingResult.style.color = "red";
+      }
+    }
   </script>
 </body>
 </html>
