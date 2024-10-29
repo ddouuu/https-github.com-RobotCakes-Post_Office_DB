@@ -17,22 +17,43 @@
     h2 {
       color: #333;
     }
+    #connection-status {
+      margin-top: 20px;
+      font-size: 14px;
+      color: #555;
+    }
   </style>
 </head>
 <body>
   <div id="root"></div>
   <div class="login-buttons">
     <h2>Welcome to the Post Office Portal</h2>
-    <br>
-<br>
     <p>Choose your login:</p>
-    <br>
-<br>
-  <div style="display: flex; justify-content: center; gap: 10px; margin-top: 20px;">
-    <button style="font-size: 14px;" onclick="window.location.href='/.auth/login/admin'">Login as Admin</button>
-    <button style="font-size: 14px;" onclick="window.location.href='/.auth/login/customer'">Login as Customer</button>
+    <div style="display: flex; justify-content: center; gap: 10px; margin-top: 20px;">
+      <button style="font-size: 14px;" onclick="window.location.href='/.auth/login/admin'">Login as Admin</button>
+      <button style="font-size: 14px;" onclick="window.location.href='/.auth/login/customer'">Login as Customer</button>
+    </div>
+    <div id="connection-status">Checking connection...</div>
   </div>
 
   <script type="module" src="/src/main.jsx"></script>
+  <script>
+    // Function to check data connection status
+    function updateConnectionStatus() {
+      const statusElement = document.getElementById('connection-status');
+      if (navigator.onLine) {
+        statusElement.textContent = 'Connected to the server';
+        statusElement.style.color = 'green';
+      } else {
+        statusElement.textContent = 'Disconnected from the server';
+        statusElement.style.color = 'red';
+      }
+    }
+
+    // Initial check and event listeners for connection changes
+    updateConnectionStatus();
+    window.addEventListener('online', updateConnectionStatus);
+    window.addEventListener('offline', updateConnectionStatus);
+  </script>
 </body>
 </html>
