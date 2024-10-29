@@ -23,10 +23,10 @@ jobs:
         run: nuget restore ./Post_Office_DB.sln
 
       - name: Publish to folder
-        run: msbuild /nologo /verbosity:m /t:Build /t:pipelinePreDeployCopyAllFilesToOneFolder /p:_PackageTempDir="published"
+        run: msbuild ./Post_Office_DB.sln /nologo /verbosity:m /t:Publish /p:PublishDir="published"
 
-      - name: List workspace contents
-        run: dir published
+      - name: List root directory contents
+        run: dir
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
