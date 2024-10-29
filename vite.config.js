@@ -1,8 +1,16 @@
 // vite.config.js
 import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
 
-export default {
-  build: {
-    outDir: 'dist', // or 'build' if Azure is expecting that
+export default defineConfig({
+  plugins: [react()],
+  server: {
+    proxy: {
+      '/api': {
+        target: 'http://localhost:5000', // Change this to your backend URL
+        changeOrigin: true,
+        secure: false, // Set to true if your backend uses HTTPS
+      },
+    },
   },
-};
+});

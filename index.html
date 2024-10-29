@@ -62,28 +62,38 @@
   <script>
     // Function to check database connection status from backend
     async function checkDatabaseStatus() {
-      const statusElement = document.getElementById('connection-status');
+    const statusElement = document.getElementById('connection-status');
 
-      try {
+    try {
         const response = await fetch('/api/db-status');
         if (response.ok) {
-          const { status } = await response.json();
-          if (status === 'connected') {
-            statusElement.textContent = 'Database Connected';
-            statusElement.style.color = 'green';
-          } else {
-            statusElement.textContent = 'Database Disconnected';
-            statusElement.style.color = 'red';
-          }
+            const { status } = await response.json();
+            if (status === 'connected') {
+                statusElement.textContent = 'Database Connected';
+                statusElement.style.color = 'green';
+            } else {
+                statusElement.textContent = 'Database Disconnected';
+                statusElement.style.color = 'red';
+            }
         } else {
-          statusElement.textContent = 'Error checking database status';
-          statusElement.style.color = 'orange';
+            statusElement.textContent = 'Error checking database status';
+            statusElement.style.color = 'orange';
         }
-      } catch (error) {
-        statusElement.textContent = 'db connection not Sure';
+    } catch (error) {
+        statusElement.textContent = 'Database connection check failed';
         statusElement.style.color = 'red';
-      }
     }
+}
+
+// Polling function
+function startPolling(interval) {
+    checkDatabaseStatus(); // Initial check
+    setInterval(checkDatabaseStatus, interval); // Subsequent checks
+}
+
+// Start polling every 5 seconds (5000 milliseconds)
+startPolling(5000);
+
 
     // Check database status on page load
     checkDatabaseStatus();
