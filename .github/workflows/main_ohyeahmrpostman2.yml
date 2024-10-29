@@ -21,7 +21,7 @@ jobs:
 
       - name: Restore NuGet packages
         # Update the path to your .sln file if it's located in a different directory
-        run: nuget restore ./src/your-solution-file.sln
+        run: nuget restore your-solution-file.sln
 
       - name: Publish to folder
         run: msbuild /nologo /verbosity:m /t:Build /t:pipelinePreDeployCopyAllFilesToOneFolder /p:_PackageTempDir="\published\"
