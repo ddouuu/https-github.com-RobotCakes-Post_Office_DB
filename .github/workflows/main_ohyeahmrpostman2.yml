@@ -28,7 +28,6 @@ jobs:
       - name: Publish to root
         run: |
           msbuild ./Post_Office_DB.sln /nologo /verbosity:m /t:Publish /p:PublishDir="${{ github.workspace }}"
-
       - name: List all files after publishing
         run: Get-ChildItem -Recurse "${{ github.workspace }}"
 
