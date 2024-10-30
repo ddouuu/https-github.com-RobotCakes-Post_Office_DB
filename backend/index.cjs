@@ -1,8 +1,8 @@
 //Connecting to DB
 const sql = require('mssql');
 const config = {
-    user: 'ashley',
-    password: 'Jameharden4000@',
+    user: 'johndou',
+    password: 'Jamesharden4000@',
     server: 'ohyeahmrpostman2.database.windows.net',
     database: 'group10',
     port: 1433,
