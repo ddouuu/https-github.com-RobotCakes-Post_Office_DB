@@ -25,18 +25,21 @@ jobs:
       - name: Restore NuGet packages
         run: nuget restore ./Post_Office_DB.sln
 
-      - name: Publish to output folder
+      - name: Publish to root
         run: |
-          msbuild ./Post_Office_DB.sln /nologo /verbosity:m /t:Publish /p:PublishDir="${{ github.workspace }}/published"
-      
+          msbuild ./Post_Office_DB.sln /nologo /verbosity:m /t:Publish /p:PublishDir="${{ github.workspace }}"
+
+      - name: List all files after publishing
+        run: Get-ChildItem -Recurse "${{ github.workspace }}"
+
       - name: Verify published directory contents
-        run: Get-ChildItem -Recurse "${{ github.workspace }}/published"
+        run: Get-ChildItem "${{ github.workspace }}"
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
         with:
           name: ASP-app
-          path: '${{ github.workspace }}/published'  # Upload all files in the published folder
+          path: '${{ github.workspace }}/*'  # Change to include all files in the root
 
   deploy:
     runs-on: windows-latest
@@ -58,4 +61,4 @@ jobs:
           app-name: 'ohyeahmrpostman2'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_C2C17171CFF346309B074ECE14374576 }}
-          package: './published'  # Points to the published directory
+          package: .
