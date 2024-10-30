@@ -25,7 +25,12 @@ jobs:
       - name: Publish to folder
         run: msbuild /nologo /verbosity:m /t:Build /t:pipelinePreDeployCopyAllFilesToOneFolder /p:_PackageTempDir="\published\"
 
-   
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ASP-app  # Ensure this matches the name used in the deploy job
+          path: \published\  # Path to the output folder from the msbuild step
+
   deploy:
     runs-on: windows-latest
     needs: build
@@ -33,14 +38,14 @@ jobs:
       name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     permissions:
-      id-token: write #This is required for requesting the JWT
+      id-token: write # Required for requesting the JWT
 
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
           name: ASP-app
-      
+
       - name: Login to Azure
         uses: azure/login@v2
         with:
