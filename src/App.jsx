@@ -1,70 +1,48 @@
-import { useState, useEffect } from "react";
-import { useAuth } from "./auth/SessionProvider";
-import LoginButton from "./components/LoginButton";
-import reactLogo from "./assets/react.svg";
-import "./styles/App.css"; // Ensure this path is correct
+import { useState } from 'react'
+
+// testing desktop import { useAuth } from "./auth/SessionProvider"; make session provider for authentication? ~davis 
+import reactLogo from './assets/react.svg'
+//import './styles/test.css'
+import Signup from "./pages/Signup";
+import Login from "./pages/Login";
+import Home from "./pages/Home";
+import { BrowserRouter } from 'react-router-dom';
+//import './styles/App.css'
+
 
 function App() {
-  const [count, setCount] = useState(0);
-  const [ip, setIp] = useState("");
-  const { user, login, logout } = useAuth();
-
-  useEffect(() => {
-    fetch("https://api.ipify.org?format=json")
-      .then((response) => response.json())
-      .then((data) => setIp(data.ip))
-      .catch((error) => console.error("Error fetching IP:", error));
-  }, []);
-
-  const handleLogin = () => {
-    const userData = { name: "John Doe", email: "john@example.com" };
-    login(userData);
-  };
+  const [count, setCount] = useState(0)
 
   return (
-    <div className="app-container">
-      <header>
-        <a href="https://react.dev" target="_blank" rel="noreferrer">
+    /*
+    <>
+    
+      <div>
+        <a href="https://react.dev" target="_blank">
           <img src={reactLogo} className="logo react" alt="React logo" />
         </a>
-        <h1>Post Office</h1>
-      </header>
-
-      {/* Centered text */}
-      <div className="centered-text">
-        <p>cool it red 😎</p>
       </div>
-
+      <h1>Vite + React</h1>
       <div className="card">
-        <button onClick={() => setCount(count + 1)}>
+        <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
         </button>
-        <p>Edit <code>src/App.jsx</code> and save to test HMR</p>
+        <p>
+          Edit <code>src/App.jsx</code> and save to test HMR
+        </p>
       </div>
-
-      <div className="auth-section">
-        {user ? (
-          <div>
-            <p>Welcome, {user.name}!</p>
-            <button onClick={logout}>Logout</button>
-          </div>
-        ) : (
-          <>
-            <button onClick={handleLogin}>Mock Login</button>
-            <LoginButton />
-          </>
-        )}
-      </div>
-
-      <div className="ip-section">
-        <p>Your IP address is: {ip ? ip : "Loading..."}</p>
-      </div>
-
-      <footer className="read-the-docs">
+      <p className="read-the-docs">
         Click on the Vite and React logos to learn more
-      </footer>
-    </div>
-  );
+      </p>
+    
+      
+    </>
+    */
+      <main className="App">
+        <Home />
+      </main>
+      
+  )
 }
 
-export default App;
+export default App
