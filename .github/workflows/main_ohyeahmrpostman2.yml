@@ -23,13 +23,16 @@ jobs:
         run: nuget restore
 
       - name: Publish to folder
-        run: msbuild /nologo /verbosity:m /t:Build /t:pipelinePreDeployCopyAllFilesToOneFolder /p:_PackageTempDir="\published\"
+        run: msbuild /nologo /verbosity:m /t:Build /t:pipelinePreDeployCopyAllFilesToOneFolder /p:_PackageTempDir="\\published\\"
+
+      - name: Check published folder contents
+        run: dir \\published\\
 
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
           name: ASP-app  # Ensure this matches the name used in the deploy job
-          path: \published\  # Path to the output folder from the msbuild step
+          path: \\published\\  # Double backslashes for correct Windows path
 
   deploy:
     runs-on: windows-latest
