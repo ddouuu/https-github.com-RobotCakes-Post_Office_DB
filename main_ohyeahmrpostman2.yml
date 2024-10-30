@@ -1,0 +1,64 @@
+name: Build and deploy ASP app to Azure Web App - ohyeahmrpostman2
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: List files in the workspace
+        run: Get-ChildItem "${{ github.workspace }}"
+
+      - name: Setup MSBuild path
+        uses: microsoft/setup-msbuild@v1.0.2
+
+      - name: Setup NuGet
+        uses: NuGet/setup-nuget@v1.0.5
+
+      - name: Restore NuGet packages
+        run: nuget restore ./Post_Office_DB.sln
+
+      - name: Publish to root
+        run: |
+          msbuild ./Post_Office_DB.sln /nologo /verbosity:m /t:Publish /p:PublishDir="${{ github.workspace }}"
+
+      - name: List all files after publishing
+        run: Get-ChildItem -Recurse "${{ github.workspace }}"
+
+      - name: Verify published directory contents
+        run: Get-ChildItem "${{ github.workspace }}"
+
+      - name: Upload artifact for deployment job
+        uses: actions/upload-artifact@v3
+        with:
+          name: ASP-app
+          path: '${{ github.workspace }}/*'  # Change to include all files in the root
+
+  deploy:
+    runs-on: windows-latest
+    needs: build
+    environment:
+      name: 'Production'
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+
+    steps:
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v3
+        with:
+          name: ASP-app
+
+      - name: Deploy to Azure Web App
+        id: deploy-to-webapp
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: 'ohyeahmrpostman2'
+          slot-name: 'Production'
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_C2C17171CFF346309B074ECE14374576 }}
+          package: .
