@@ -62,3 +62,7 @@ jobs:
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_C2C17171CFF346309B074ECE14374576 }}
           package: ./dist
 
+
+      - name: List files in dist
+        run: Get-ChildItem -Recurse "${{ github.workspace }}/dist"
+
