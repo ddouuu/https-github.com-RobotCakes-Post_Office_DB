@@ -60,4 +60,5 @@ jobs:
           app-name: 'ohyeahmrpostman2'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_C2C17171CFF346309B074ECE14374576 }}
-          package: .
+          package: ./dist
+
