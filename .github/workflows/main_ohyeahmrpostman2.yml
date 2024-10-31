@@ -14,13 +14,27 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: List files in the workspace
-        run: Get-ChildItem "${{ github.workspace }}"
+        run: Get-ChildItem -Recurse "${{ github.workspace }}"
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'  # Specify your Node.js version
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Build the project
+        run: yarn build
+
+      - name: List files in dist
+        run: Get-ChildItem -Recurse "${{ github.workspace }}/dist"
 
       - name: Setup MSBuild path
-        uses: microsoft/setup-msbuild@v1.0.2
+        uses: microsoft/setup-msbuild@v1.1.0
 
       - name: Setup NuGet
-        uses: NuGet/setup-nuget@v1.0.5
+        uses: NuGet/setup-nuget@v1.1.0
 
       - name: Restore NuGet packages
         run: nuget restore ./Post_Office_DB.sln
@@ -28,6 +42,7 @@ jobs:
       - name: Publish to root
         run: |
           msbuild ./Post_Office_DB.sln /nologo /verbosity:m /t:Publish /p:PublishDir="${{ github.workspace }}"
+      
       - name: List all files after publishing
         run: Get-ChildItem -Recurse "${{ github.workspace }}"
 
@@ -35,10 +50,10 @@ jobs:
         run: Get-ChildItem "${{ github.workspace }}"
 
       - name: Upload artifact for deployment job
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ASP-app
-          path: '${{ github.workspace }}/*'  # Change to include all files in the root
+          path: '${{ github.workspace }}/*'  # Include all files in the root
 
   deploy:
     runs-on: windows-latest
@@ -49,7 +64,7 @@ jobs:
 
     steps:
       - name: Download artifact from build job
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: ASP-app
 
@@ -60,9 +75,4 @@ jobs:
           app-name: 'ohyeahmrpostman2'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_C2C17171CFF346309B074ECE14374576 }}
-          package: ./dist
-
-
-      - name: List files in dist
-        run: Get-ChildItem -Recurse "${{ github.workspace }}/dist"
-
+          package: '${{ github.workspace }}/dist'  # Ensure this points to the correct dist folder
