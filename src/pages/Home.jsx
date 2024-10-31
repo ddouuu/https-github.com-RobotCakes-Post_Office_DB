@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import TrackPackage from './trackPackage';
 import Register from './Signup';
 import Login from './Login';
-import '../styles/Home.css';
+import '../styles/home.css';
 
 const Home = () => {
   function CustomLink({ to, children, ...props }) {
