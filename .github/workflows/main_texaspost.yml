@@ -15,10 +15,10 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup MSBuild path
-        uses: microsoft/setup-msbuild@v1.0.2
+        uses: microsoft/setup-msbuild@v1.1.0  # Updated version
 
       - name: Setup NuGet
-        uses: NuGet/setup-nuget@v1.0.5
+        uses: NuGet/setup-nuget@v1.1.0  # Updated version
 
       - name: Install .NET SDK (if necessary)
         run: |
@@ -30,8 +30,7 @@ jobs:
       - name: Publish to folder
         run: msbuild backend/PostOfficeDB.sln /nologo /verbosity:m /t:Publish /p:PublishDir="${{ github.workspace }}/published"
 
-      # Verify published folder content
-      - name: List published folder contents
+      - name: Verify published directory contents
         run: Get-ChildItem -Path "${{ github.workspace }}/published" -Recurse
         shell: pwsh
 
