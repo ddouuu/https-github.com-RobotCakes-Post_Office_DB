@@ -48,6 +48,7 @@ jobs:
         with:
           name: ASP-app
           path: '${{ github.workspace }}/published' 
+          retention-days: 1
 
   deploy:
     runs-on: windows-latest
