@@ -21,10 +21,13 @@ jobs:
         uses: NuGet/setup-nuget@v1.0.5
 
       - name: Restore NuGet packages
-        run: nuget restore
+        run: nuget restore YourProject.sln
 
       - name: Publish to folder
-        run: msbuild /nologo /verbosity:m /t:Build /p:Configuration=Release /p:OutDir=published
+        run: msbuild YourProject.sln /nologo /verbosity:m /t:Build /p:Configuration=Release /p:OutDir=${{ github.workspace }}\published
+
+      - name: List all folders and files
+        run: dir /s
 
       - name: List published folder contents
         run: dir published
