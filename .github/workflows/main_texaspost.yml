@@ -14,24 +14,19 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup MSBuild path
-        uses: microsoft/setup-msbuild@v1.1.0  # Updated version
-
-      - name: Setup NuGet
-        uses: NuGet/setup-nuget@v1.1.0  # Updated version
-
-      - name: Install .NET SDK (if necessary)
-        run: |
-          choco install dotnet-sdk --version 7.0.100
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '7.0.x'
 
       - name: Restore NuGet packages
-        run: nuget restore backend/PostOfficeDB.csproj
+        run: dotnet restore backend/PostOfficeDB.csproj
 
       - name: Publish to folder
-        run: msbuild backend/PostOfficeDB.sln /nologo /verbosity:m /t:Publish /p:PublishDir="${{ github.workspace }}/published"
+        run: dotnet publish backend/PostOfficeDB.sln --configuration Release --output ${{ github.workspace }}/published
 
-      - name: Verify published directory contents
-        run: Get-ChildItem -Path "${{ github.workspace }}/published" -Recurse
+      - name: List all folders and files
+        run: Get-ChildItem -Path . -Recurse
         shell: pwsh
 
       - name: Upload artifact for deployment job
@@ -53,7 +48,6 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: ASP-app
-          path: '${{ github.workspace }}/published'
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
