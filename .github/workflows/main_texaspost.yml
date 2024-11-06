@@ -53,6 +53,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: ASP-app
+          path: '${{ github.workspace }}/published'  # Specify where to download the artifact
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
@@ -60,5 +61,5 @@ jobs:
         with:
           app-name: 'texasPost'
           slot-name: 'Production'
-          package: '${{ github.workspace }}/published'
+          package: '${{ github.workspace }}/published'  # Use the downloaded path
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_A3B84C7D48A541069A7C101689A39FF2 }}
