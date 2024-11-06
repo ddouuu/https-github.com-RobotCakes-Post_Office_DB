@@ -27,20 +27,25 @@ jobs:
 
       # Restore NuGet packages (ensure path is correct to your csproj or sln file)
       - name: Restore NuGet packages
-        run: nuget restore backend/PostOfficeDB.csproj  # Adjust path if necessary
+        run: nuget restore backend/PostOfficeDB.sln  # Adjust path to solution file
 
       # Build and publish the project
       - name: Publish to folder
-        run: msbuild backend/PostOfficeDB.sln /nologo /verbosity:m /t:Build /p:Configuration=Release /p:OutDir=${{ github.workspace }}\published
+        run: msbuild backend/PostOfficeDB.sln /nologo /verbosity:m /t:Restore,Build /p:Configuration=Release /p:OutputPath=${{ github.workspace }}\published
 
       # List all folders and files to debug path issues using PowerShell syntax
       - name: List all folders and files
         run: Get-ChildItem -Path . -Recurse
         shell: pwsh
 
-      # List contents of the published folder
+      # Check if the published folder exists and list contents
       - name: List published folder contents
-        run: Get-ChildItem -Path published -Recurse
+        run: |
+          if (!(Test-Path -Path 'published')) {
+            Write-Error "Published folder not found."
+            exit 1
+          }
+          Get-ChildItem -Path 'published' -Recurse
         shell: pwsh
 
       # Upload the build artifact for the deploy job
