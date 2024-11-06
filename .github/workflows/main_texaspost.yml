@@ -30,8 +30,9 @@ jobs:
       - name: Publish to folder
         run: msbuild backend/PostOfficeDB.sln /nologo /verbosity:m /t:Publish /p:PublishDir="${{ github.workspace }}/published"
 
-      - name: List all folders and files
-        run: Get-ChildItem -Path . -Recurse
+      # Verify published folder content
+      - name: List published folder contents
+        run: Get-ChildItem -Path "${{ github.workspace }}/published" -Recurse
         shell: pwsh
 
       - name: Upload artifact for deployment job
@@ -53,7 +54,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: ASP-app
-          path: '${{ github.workspace }}/published'  # Specify where to download the artifact
+          path: '${{ github.workspace }}/published'
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
@@ -61,5 +62,5 @@ jobs:
         with:
           app-name: 'texasPost'
           slot-name: 'Production'
-          package: '${{ github.workspace }}/published'  # Use the downloaded path
+          package: '${{ github.workspace }}/published'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_A3B84C7D48A541069A7C101689A39FF2 }}
