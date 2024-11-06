@@ -49,6 +49,11 @@ jobs:
         with:
           name: ASP-app
 
+      - name: Extract artifact
+        run: |
+          # Extract the downloaded artifact (zip file) to a folder
+          Expand-Archive -Path ${{ github.workspace }}/ASP-app.zip -DestinationPath ${{ github.workspace }}/published
+
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
