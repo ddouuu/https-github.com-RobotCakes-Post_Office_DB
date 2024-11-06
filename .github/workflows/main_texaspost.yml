@@ -20,8 +20,12 @@ jobs:
       - name: Setup NuGet
         uses: NuGet/setup-nuget@v1.0.5
 
+      - name: Install .NET SDK (if necessary)
+        run: |
+          choco install dotnet-sdk --version 7.0.100  # Adjust if you're using a different version
+
       - name: Restore NuGet packages
-        run: nuget restore backend/PostOfficeDB.csproj  # Using csproj instead of sln
+        run: nuget restore backend/PostOfficeDB.csproj  # Ensure path is correct
 
       - name: Publish to folder
         run: msbuild backend/PostOfficeDB.csproj /nologo /verbosity:m /t:Build /p:Configuration=Release /p:OutDir=${{ github.workspace }}\published
