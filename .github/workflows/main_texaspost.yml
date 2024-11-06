@@ -43,12 +43,11 @@ jobs:
         run: Get-ChildItem -Path published -Recurse
         shell: pwsh
 
-      # Upload the build artifact for the deploy job
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: ASP-app
-          path: 'published/**/*'
+          path: '${{ github.workspace }}/*' 
 
   deploy:
     runs-on: windows-latest
