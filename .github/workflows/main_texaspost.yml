@@ -23,7 +23,7 @@ jobs:
         run: dotnet restore backend/PostOfficeDB.csproj
 
       - name: Publish to folder
-        run: dotnet publish backend/PostOfficeDB.sln --configuration Release --output ${{ github.workspace }}/published
+        run: dotnet publish backend/PostOfficeDB.csproj --configuration Release --output ${{ github.workspace }}/published
 
       - name: List all folders and files
         run: Get-ChildItem -Path . -Recurse
