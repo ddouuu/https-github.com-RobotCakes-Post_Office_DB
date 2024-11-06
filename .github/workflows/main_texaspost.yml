@@ -33,13 +33,15 @@ jobs:
       - name: Publish to folder
         run: msbuild backend/PostOfficeDB.sln /nologo /verbosity:m /t:Build /p:Configuration=Release /p:OutDir=${{ github.workspace }}\published
 
-      # List all folders and files to debug path issues
+      # List all folders and files to debug path issues using PowerShell syntax
       - name: List all folders and files
-        run: dir /s
+        run: Get-ChildItem -Path . -Recurse
+        shell: pwsh
 
       # List contents of the published folder
       - name: List published folder contents
-        run: dir published
+        run: Get-ChildItem -Path published -Recurse
+        shell: pwsh
 
       # Upload the build artifact for the deploy job
       - name: Upload artifact for deployment job
