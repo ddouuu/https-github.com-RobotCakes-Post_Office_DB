@@ -31,7 +31,7 @@ jobs:
 
       # Build and publish the project
       - name: Publish to folder
-        run: msbuild backend/PostOfficeDB.csproj /nologo /verbosity:m /t:Build /p:Configuration=Release /p:OutDir=${{ github.workspace }}\published
+        run: msbuild backend/PostOfficeDB.sln /nologo /verbosity:m /t:Build /p:Configuration=Release /p:OutDir=${{ github.workspace }}\published
 
       # List all folders and files to debug path issues
       - name: List all folders and files
