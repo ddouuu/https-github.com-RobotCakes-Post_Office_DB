@@ -21,10 +21,10 @@ jobs:
         uses: NuGet/setup-nuget@v1.0.5
 
       - name: Restore NuGet packages
-        run: nuget restore YourProject.sln
+        run: nuget restore PostOfficeDB.sln
 
       - name: Publish to folder
-        run: msbuild YourProject.sln /nologo /verbosity:m /t:Build /p:Configuration=Release /p:OutDir=${{ github.workspace }}\published
+        run: msbuild PostOfficeDB.sln /nologo /verbosity:m /t:Build /p:Configuration=Release /p:OutDir=${{ github.workspace }}\published
 
       - name: List all folders and files
         run: dir /s
