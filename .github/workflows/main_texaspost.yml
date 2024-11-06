@@ -20,22 +20,28 @@ jobs:
       - name: Setup NuGet
         uses: NuGet/setup-nuget@v1.0.5
 
+      # Install the .NET SDK if it's needed for building the project
       - name: Install .NET SDK (if necessary)
         run: |
-          choco install dotnet-sdk --version 7.0.100  # Adjust if you're using a different version
+          choco install dotnet-sdk --version 7.0.100  # Adjust this if you're using a different .NET version
 
+      # Restore NuGet packages (ensure path is correct to your csproj or sln file)
       - name: Restore NuGet packages
-        run: nuget restore backend/PostOfficeDB.csproj  # Ensure path is correct
+        run: nuget restore backend/PostOfficeDB.csproj  # Adjust path if necessary
 
+      # Build and publish the project
       - name: Publish to folder
         run: msbuild backend/PostOfficeDB.csproj /nologo /verbosity:m /t:Build /p:Configuration=Release /p:OutDir=${{ github.workspace }}\published
 
+      # List all folders and files to debug path issues
       - name: List all folders and files
         run: dir /s
 
+      # List contents of the published folder
       - name: List published folder contents
         run: dir published
 
+      # Upload the build artifact for the deploy job
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
