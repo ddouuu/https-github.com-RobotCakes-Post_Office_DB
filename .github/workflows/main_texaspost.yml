@@ -17,15 +17,17 @@ jobs:
         uses: NuGet/setup-nuget@v1.0.5
       - name: Restore NuGet packages
         run: nuget restore
+      - name: Ensure published folder exists
+        run: mkdir -Force -Path published
       - name: Publish to folder
-        run: msbuild /nologo /verbosity:m /t:Build /p:OutDir="published"
+        run: msbuild /nologo /verbosity:m /t:Build /p:Configuration=Release /p:OutDir=$(System.DefaultWorkingDirectory)\published
       - name: List published folder contents
-        run: dir published
+        run: dir $(System.DefaultWorkingDirectory)\published
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: ASP-app
-          path: 'published/**'
+          path: '$(System.DefaultWorkingDirectory)\published\**\*'
       - name: Confirm artifact upload
         run: echo "Artifact ASP-app uploaded successfully."
 
