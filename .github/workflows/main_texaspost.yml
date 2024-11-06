@@ -25,6 +25,11 @@ jobs:
       - name: Publish to folder
         run: msbuild /nologo /verbosity:m /t:Build /p:OutDir="published"
 
+      - name: List published directory contents (for debugging)
+        run: |
+          echo "Listing contents of published directory:"
+          dir published
+
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
