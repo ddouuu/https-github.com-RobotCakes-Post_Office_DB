@@ -21,10 +21,10 @@ jobs:
         uses: NuGet/setup-nuget@v1.0.5
 
       - name: Restore NuGet packages
-        run: nuget restore PostOfficeDB.sln
+        run: nuget restore backend/PostOfficeDB.sln  # Update with correct file name if different
 
       - name: Publish to folder
-        run: msbuild PostOfficeDB.sln /nologo /verbosity:m /t:Build /p:Configuration=Release /p:OutDir=${{ github.workspace }}\published
+        run: msbuild backend/PostOfficeDB.sln /nologo /verbosity:m /t:Build /p:Configuration=Release /p:OutDir=${{ github.workspace }}\published  # Ensure correct file
 
       - name: List all folders and files
         run: dir /s
