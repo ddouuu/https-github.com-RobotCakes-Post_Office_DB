@@ -20,8 +20,9 @@ jobs:
           dotnet-version: '6.0.x'
           
       - name: List repository files
-        run: dir ${{ github.workspace }} /s
+        run: Get-ChildItem -Path ${{ github.workspace }} -Recurse
         shell: pwsh
+
 
 
       - name: Restore NuGet packages
