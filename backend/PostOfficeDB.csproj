@@ -4,7 +4,6 @@
   <!-- Properties for the project -->
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework> <!-- Adjust this if you're targeting a different .NET version -->
-    <OutputType>Exe</OutputType> <!-- Set to 'Exe' if this is the entry point for a backend service -->
     <RootNamespace>PostOfficeDB</RootNamespace>
     <AssemblyName>PostOfficeDB</AssemblyName>
   </PropertyGroup>
@@ -12,16 +11,10 @@
   <!-- Dependencies and external NuGet packages -->
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.0" /> <!-- Use SqlServer if applicable -->
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.0" /> <!-- For JSON serialization support -->
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.0" />
     <!-- Add other necessary NuGet packages here -->
-  </ItemGroup>
-
-  <!-- Project references to other projects in the solution -->
-  <ItemGroup>
-    <!-- Add references to other projects if necessary -->
-    <!-- Example: <ProjectReference Include="..\SomeOtherProject\SomeOtherProject.csproj" /> -->
   </ItemGroup>
 
   <!-- Additional build configurations -->
