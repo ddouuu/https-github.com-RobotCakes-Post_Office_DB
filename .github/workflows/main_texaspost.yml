@@ -14,23 +14,20 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: List repository files (for debugging)
+        run: dir ${{ github.workspace }} /s
+        shell: pwsh
+
       - name: Setup .NET SDK
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: '6.0.x'
-          
-      - name: List repository files
-        run: Get-ChildItem -Path ${{ github.workspace }} -Recurse
-        shell: pwsh
-
-
 
       - name: Restore NuGet packages
-        run: dotnet restore backend/PostOfficeDB.csproj
+        run: dotnet restore ./backend/PostOfficeDB.csproj
 
       - name: Publish Web App
-        run: dotnet publish ./PostOfficeWebApp/PostOfficeWebApp.csproj --configuration Release --output ${{ github.workspace }}/published
-
+        run: dotnet publish ./backend/PostOfficeDB.csproj --configuration Release --output ${{ github.workspace }}/published
 
       - name: Create a zip file of the published app
         run: Compress-Archive -Path ${{ github.workspace }}/published/* -DestinationPath ${{ github.workspace }}/ASP-app.zip
