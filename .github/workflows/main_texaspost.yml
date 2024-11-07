@@ -28,8 +28,9 @@ jobs:
       - name: Restore NuGet packages
         run: dotnet restore backend/PostOfficeDB.csproj
 
-      - name: Publish to folder
-        run: dotnet publish backend/PostOfficeDB.csproj --configuration Release --output ${{ github.workspace }}/published
+      - name: Publish Web App
+        run: dotnet publish ./PostOfficeWebApp/PostOfficeWebApp.csproj --configuration Release --output ${{ github.workspace }}/published
+
 
       - name: Create a zip file of the published app
         run: Compress-Archive -Path ${{ github.workspace }}/published/* -DestinationPath ${{ github.workspace }}/ASP-app.zip
