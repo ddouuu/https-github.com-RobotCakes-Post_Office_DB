@@ -18,9 +18,11 @@ jobs:
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: '6.0.x'
-
+          
       - name: List repository files
         run: dir ${{ github.workspace }} /s
+        shell: pwsh
+
 
       - name: Restore NuGet packages
         run: dotnet restore backend/PostOfficeDB.csproj
