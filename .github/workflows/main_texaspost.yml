@@ -3,8 +3,8 @@ name: Build and deploy ASP app to Azure Web App - texasPost
 on:
   push:
     branches:
-      - main  # Triggers when there is a push to the main branch
-  workflow_dispatch:  # Allows you to manually trigger the workflow
+      - main
+  workflow_dispatch:
 
 jobs:
   build:
@@ -17,7 +17,7 @@ jobs:
       - name: Setup .NET SDK
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '7.0.x'
+          dotnet-version: '6.0.x'  # Update to match your .NET version
 
       - name: Restore NuGet packages
         run: dotnet restore backend/PostOfficeDB.csproj
