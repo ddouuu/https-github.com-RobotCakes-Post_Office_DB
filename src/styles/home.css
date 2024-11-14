@@ -6,11 +6,13 @@
   max-width: 1200px;
   margin: 0 auto;
   width: 100%;
+  align-items: center; /* Ensure content is centered */
+  justify-content: flex-start; /* Align from the top */
 }
 
 /* Navigation bar styles */
 .nav {
-  background-color: #282c34;
+  background-color: #efefef;
   padding: 1rem;
   display: flex;
   justify-content: center;
@@ -59,6 +61,7 @@
   text-align: center;
   padding: 3rem 1.5rem;
   max-width: 800px;
+  width: 100%; /* Ensure it doesn't stretch beyond container */
   margin: 0 auto;
 }
 
@@ -70,9 +73,10 @@ input[type="text"] {
   font-size: 16px;
   border-radius: 5px;
   border: 1px solid #ccc;
-  margin: 1rem auto;
+  margin: 1rem auto; /* Center align */
 }
 
+/* Button styles */
 .btn {
   padding: 0.75rem 1.5rem;
   background-color: #007bff;
@@ -80,7 +84,7 @@ input[type="text"] {
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  margin: 1rem 0;
+  margin: 1rem auto; /* Center align */
 }
 
 .btn:hover {
@@ -134,11 +138,12 @@ footer a:hover {
   color: #8be9fd;
   transition: color 0.2s ease;
 }
+
 /* Search form styles */
 .search-form {
   width: 100%;
   max-width: 500px;
-  margin: 20px auto;
+  margin: 20px auto; /* Center align */
 }
 
 .search-input {
@@ -149,6 +154,7 @@ footer a:hover {
   border: 1px solid #ccc;
   margin-bottom: 1rem;
 }
+
 /* Services section styles */
 .services-section {
   width: 100%;
@@ -168,7 +174,7 @@ footer a:hover {
 
 .content-wrapper {
   max-width: 1200px;
-  width: 100%;
+  width: max-content;
   margin: 0 auto;
   padding: 0 1rem;
 }
